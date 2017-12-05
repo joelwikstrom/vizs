@@ -1,38 +1,33 @@
-# Barebone application written in Scala.js
+# Skeleton for using Graphviz clientside from Scala
 
-This is a barebone example of an application written in
-[Scala.js](http://www.scala-js.org/).
+This is an example of how [Graphviz](http://www.graphviz.org/) can be used 
+clien side from Scala by using [Vis.js](https://github.com/mdaines/viz.js/). It's not complete facade but just the bare minimum to call viz.js from scala.
 
-## Get started
+I started from [scala-js-example-app](https://github.com/sjrd/scala-js-example-app). I cleaned it a bit and then:
+1. Added the following lines to build.sbt:
+```
+    scalaJSUseMainModuleInitializer := true
+    jsDependencies += "org.webjars.npm" % "viz.js" % "1.7.0" / "1.7.0/viz.js"
+```
+2. Created the Viz.scala
 
-To get started, open `sbt` in this example project, and execute the task
-`fastOptJS`. This creates the file `target/scala-2.12/example-fastopt.js`.
-You can now open `index-fastopt.html` in your favorite Web browser!
+3. Created Main.scala and called the Viz function from it
 
-During development, it is useful to use `~fastOptJS` in sbt, so that each
-time you save a source file, a compilation of the project is triggered.
-Hence only a refresh of your Web page is needed to see the effects of your
-changes.
+4. Added links to the generated javascript in: 
+- index-fastopt.html:
+```
+<script type="text/javascript" src="./target/scala-2.12/vizs-jsdeps.js"></script>
+<script type="text/javascript" src="./target/scala-2.12/vizs-fastopt.js"></script>
+```
+- index.html:
+```
+<script type="text/javascript" src="./target/scala-2.12/vizs-jsdeps.min.js"></script>
+<script type="text/javascript" src="./target/scala-2.12/vizs-opt.js"></script>
+```
 
-## Run the tests
+##### Screen shot of working example
+![broken link](https://github.com/joelwikstrom/vizs/blob/master/VizsIndexScreenShot.png "Vizs - index screen shot")
 
-To run the test suite, execute the task `test`. If you have installed
-[Node.js](http://nodejs.org/), you can use that runtime to run the tests,
-which is faster:
 
-    > set scalaJSStage in Global := FastOptStage
-    > test
-
-## The fully optimized version
-
-For ultimate code size reduction, use `fullOptJS`. This will take several
-seconds to execute, so typically you only use this for the final, production
-version of your application. While `index-fastopt.html` refers to the
-JavaScript emitted by `fastOptJS`, `index.html` refers to the optimized
-JavaScript emitted by `fullOptJS`.
-
-If Node.js is installed, the tests can also be run in their fully optimized
-version with:
-
-    > set scalaJSStage in Global := FullOptStage
-    > test
+The browser warns that: [Invalid asm.js: Function definition doesn't match use](https://github.com/mdaines/viz.js/issues/96).
+I haven't looked into that.
